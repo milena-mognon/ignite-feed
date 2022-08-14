@@ -1,3 +1,5 @@
+import { Avatar } from "./Avatar";
+import { Comment } from "./Comment";
 import styles from "./Post.module.css";
 
 type Post = {
@@ -10,10 +12,8 @@ export function Post(props: Post) {
     <article className={styles.post}>
       <header>
         <div className={styles.author}>
-          <img
-            className={styles.avatar}
-            src="https://github.com/milena-mognon.png"
-          />
+          <Avatar src="https://github.com/milena-mognon.png" />
+
           <div className={styles.authorInfo}>
             <strong>Milena Mognon</strong>
             <span>Full Stack Developer</span>
@@ -37,6 +37,19 @@ export function Post(props: Post) {
           👉 <a href="#">jane.design/doctorcare</a>
         </p>
         <p>#novoprojeto #nlw #rocketseat</p>
+      </div>
+
+      <form className={styles.commentForm}>
+        <strong>Deixe o seu Comentário</strong>
+
+        <textarea placeholder="Deixe o seu comentário"></textarea>
+        <button type="submit">Comentar</button>
+      </form>
+
+      <div className={styles.commentList}>
+        <Comment />
+        <Comment />
+        <Comment />
       </div>
     </article>
   );
