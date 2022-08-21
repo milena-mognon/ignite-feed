@@ -4,7 +4,7 @@ import styles from "./Comment.module.css";
 
 type Comment = {
   content: string;
-  onDeleteComment: Function;
+  onDeleteComment: (comment: string) => void;
 };
 export function Comment({ content, onDeleteComment }: Comment) {
   const [likeCount, setLikeCount] = useState(0);
@@ -14,7 +14,11 @@ export function Comment({ content, onDeleteComment }: Comment) {
   }
 
   function handleLikeComment() {
-    setLikeCount(likeCount + 1);
+    // quando um estado precisa dele mesmo para atualizar o valor é melhor usar essa sintaxe de função
+    setLikeCount((state) => {
+      // state é p valor mais atualizado de likeCount
+      return state + 1;
+    });
   }
 
   return (

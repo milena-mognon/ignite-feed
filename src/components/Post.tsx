@@ -4,9 +4,9 @@ import styles from "./Post.module.css";
 import { format } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
 import formatDistanceToNow from "date-fns/esm/formatDistanceToNow/index.js";
-import { useState } from "react";
+import { ChangeEvent, FormEvent, InvalidEvent, useState } from "react";
 
-type Post = {
+type PostProps = {
   author: {
     name: string;
     role: string;
@@ -19,7 +19,7 @@ type Post = {
   publishedAt: Date;
 };
 
-export function Post({ author, content, publishedAt }: Post) {
+export function Post({ author, content, publishedAt }: PostProps) {
   // const publishedDateFormatted = new Intl.DateTimeFormat("pt-BR", {
   //   day: "2-digit",
   //   month: "long",
@@ -43,8 +43,8 @@ export function Post({ author, content, publishedAt }: Post) {
     addSuffix: true,
   });
 
-  function handleCreateNewComment() {
-    event?.preventDefault();
+  function handleCreateNewComment(event: FormEvent) {
+    event.preventDefault();
 
     setComments([...comments, newCommentText]);
 
@@ -57,6 +57,11 @@ export function Post({ author, content, publishedAt }: Post) {
     );
 
     setComments(commentsWithoutDeletedOne);
+  }
+
+  function handleNewCommentChange(event: ChangeEvent<HTMLTextAreaElement>) {
+    event.target.setCustomValidity("");
+    setNewCommentText(event.target.value);
   }
 
   const isNewCommentEmpty = !newCommentText;
@@ -100,13 +105,12 @@ export function Post({ author, content, publishedAt }: Post) {
         <textarea
           name="comment"
           placeholder="Deixe o seu comentário"
-          onChange={(e) => {
-            e.target.setCustomValidity("");
-            setNewCommentText(e.target.value);
-          }}
+          onChange={handleNewCommentChange}
           value={newCommentText}
           required
-          onInvalid={(e) => e.target.setCustomValidity("Inválido")}
+          onInvalid={(e: InvalidEvent<HTMLTextAreaElement>) =>
+            e.target.setCustomValidity("Inválido")
+          }
         ></textarea>
         <button disabled={isNewCommentEmpty} type="submit">
           Comentar
