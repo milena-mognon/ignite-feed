@@ -1,7 +1,7 @@
 import { Avatar } from "./Avatar";
 import styles from "./Comment.module.css";
 
-export function Comment() {
+export function Comment({ content }) {
   return (
     <div className={styles.comment}>
       <Avatar src="https://github.com/milena-mognon.png" />
@@ -24,7 +24,7 @@ export function Comment() {
             </button>
           </header>
 
-          <p>Muito Bom Milena, parabéns!! </p>
+          <p>{content}</p>
         </div>
 
         <footer>
